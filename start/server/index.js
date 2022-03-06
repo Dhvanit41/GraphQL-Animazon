@@ -8,25 +8,34 @@ const typeDefs = gql`
   }
 
   type Animal{
+    id:ID!
     image:String!
     title:String!
     rating:Float
     price:String!
     description:[String!]!
     stock:Int!,
-    onSale:Boolean
+    onSale:Boolean,
+    slug:String!
   }
 
   type Query {
     mainCards: [MainCard]
-    animals:[Animal!]!
+    animals:[Animal!]!,
+    animal(slug:String!):Animal
   }
 `;
 
 const resolvers = {
   Query: {
     mainCards: () => mainCards,
-    animals:() => animals
+    animals:() => animals,
+    animal : (parent,args,ctx)=>{
+      let animal = animals.find((animal)=>(
+        animal.slug=== args.slug
+      ))
+      return animal
+    }
   },
 };
 
