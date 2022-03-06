@@ -145,7 +145,7 @@ const animals = [
     }
   ]
 
-  const categories = [
+const categories = [
       {
           id: "1",
           image: "tiger",

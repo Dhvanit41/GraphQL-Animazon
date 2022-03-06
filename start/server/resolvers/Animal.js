@@ -1,7 +1,5 @@
-const {categories } = require("../db")
-
 const Animal = {
-  category: (parent, args, ctx) => {
+  category: (parent, args, {categories}) => {
     return categories.find((category) => category.id == parent.category);
   },
 };

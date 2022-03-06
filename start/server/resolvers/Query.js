@@ -1,13 +1,11 @@
-const { mainCards, animals, categories } = require("../db");
-
 const Query = {
-  mainCards: () => mainCards,
-  animals: () => animals,
-  animal: (parent, args, ctx) => {
+  mainCards: (parent, args, { mainCards }) => mainCards,
+  animals: (parent, args, { animals }) => animals,
+  animal: (parent, args, { animals }) => {
     return animals.find((animal) => animal.slug === args.slug);
   },
-  categories: () => categories,
-  category: (parent, args, ctx) => {
+  categories: (parent, args, { categories }) => categories,
+  category: (parent, args, { categories, mainCards }) => {
     return categories.find((category) => category.slug === args.slug);
   },
 };
