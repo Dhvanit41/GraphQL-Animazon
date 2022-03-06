@@ -1,5 +1,6 @@
 const { v4 } = require("uuid");
 const { animals } = require("./Category");
+const { animal } = require("./Query");
 
 const Mutation = {
   addAnimal: (
@@ -13,19 +14,11 @@ const Mutation = {
     animals.push(newAnimal)
     return newAnimal
   },
+  removeAnimal:(parent,{id},{animals})=>{
+    let index = animals.findIndex((animal)=>animal.id == id);
+    animals.splice(index,1)
+    return index>-1?true:false
+  }
 
 };
 module.exports = Mutation;
-
-// type Animal {
-//     id: ID!
-//     image: String!
-//     title: String!
-//     rating: Float
-//     price: String!
-//     description: [String!]!
-//     stock: Int!
-//     onSale: Boolean
-//     slug: String!
-//     category:Category
-//   }

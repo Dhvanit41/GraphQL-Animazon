@@ -47,6 +47,7 @@ const typeDefs = gql`
       slug: String!
       category: String
     ): Animal
+    removeAnimal(id:ID!):Boolean
   }
 `;
 
