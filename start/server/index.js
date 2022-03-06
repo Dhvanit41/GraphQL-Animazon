@@ -1,67 +1,39 @@
-const { ApolloServer, gql } = require("apollo-server");
+const { ApolloServer } = require("apollo-server");
 const { mainCards, animals, categories } = require("./db");
+const typeDefs = require("./schema.js");
+const Category = require("./resolvers/Category");
+const Animal = require("./resolvers/Animal");
+const Query = require("./resolvers/Query");
 
-const typeDefs = gql`
-  type MainCard {
-    title: String!
-    image: String!
-  }
+// const resolvers = {
+//   Query: {
+//     mainCards: () => mainCards,
+//     animals: () => animals,
+//     animal: (parent, args, ctx) => {
+//       return animals.find((animal) => animal.slug === args.slug);
+//     },
+//     categories: () => categories,
+//     category: (parent, args, ctx) => {
+//       return categories.find((category) => category.slug === args.slug);
+//     },
+//   },
+//   Category: {
+//     animals: (parent, args, ctx) => {
+//       return animals.filter((animal) => animal.category == parent.id);
+//     },
+//   },
+//   Animal: {
+//     category: (parent, args, ctx) => {
+//       return categories.find((category) => category.id == parent.category);
+//     },
+//   },
+// };
 
-  type Animal {
-    id: ID!
-    image: String!
-    title: String!
-    rating: Float
-    price: String!
-    description: [String!]!
-    stock: Int!
-    onSale: Boolean
-    slug: String!
-    category:Category
-  }
-
-  type Category {
-    id: ID!
-    image: String!
-    category: String
-    slug: String,
-    animals:[Animal!]!
-  }
-
-  type Query {
-    mainCards: [MainCard]
-    animals: [Animal!]!
-    animal(slug: String!): Animal
-    categories: [Category!]!
-    category(slug:String!): Category
-  }
-`;
-
-const resolvers = {
-  Query: {
-    mainCards: () => mainCards,
-    animals: () => animals,
-    animal: (parent, args, ctx) => {
-     return  animals.find((animal) => animal.slug === args.slug);
-    },
-    categories: () => categories,
-    category:(parent, args, ctx) => {
-      return categories.find((category) => category.slug === args.slug);
-    }
-  },
-  Category:{
-    animals :(parent,args,ctx)=>{
-      return animals.filter(animal=>( animal.category == parent.id))
-    }
-  },
-  Animal:{
-    category:(parent,args,ctx)=>{
-      return categories.find(category=> category.id == parent.category)
-    }
-  }
-};
-
-const server = new ApolloServer({ typeDefs, resolvers });
+const server = new ApolloServer({ typeDefs, resolvers:{
+  Query,
+  Animal,
+  Category
+} });
 
 server.listen().then(({ url }) => {
   console.log(`🚀  Server ready at ${url}`);
