@@ -1,4 +1,4 @@
-const {gql } = require("apollo-server");
+const { gql } = require("apollo-server");
 
 const typeDefs = gql`
   type MainCard {
@@ -16,15 +16,15 @@ const typeDefs = gql`
     stock: Int!
     onSale: Boolean
     slug: String!
-    category:Category
+    category: Category
   }
 
   type Category {
     id: ID!
     image: String!
     category: String
-    slug: String,
-    animals:[Animal!]!
+    slug: String
+    animals: [Animal!]!
   }
 
   type Query {
@@ -32,8 +32,22 @@ const typeDefs = gql`
     animals: [Animal!]!
     animal(slug: String!): Animal
     categories: [Category!]!
-    category(slug:String!): Category
+    category(slug: String!): Category
+  }
+
+  type Mutation {
+    addAnimal(
+      image: String!
+      title: String!
+      rating: Float
+      price: String!
+      description: [String!]!
+      stock: Int!
+      onSale: Boolean
+      slug: String!
+      category: String
+    ): Animal
   }
 `;
 
-module.exports = typeDefs
+module.exports = typeDefs;
