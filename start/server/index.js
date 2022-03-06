@@ -17,13 +17,15 @@ const typeDefs = gql`
     stock: Int!
     onSale: Boolean
     slug: String!
+    category:Category
   }
 
   type Category {
     id: ID!
     image: String!
     category: String
-    slug: String
+    slug: String,
+    animals:[Animal!]!
   }
 
   type Query {
@@ -47,6 +49,16 @@ const resolvers = {
       return categories.find((category) => category.slug === args.slug);
     }
   },
+  Category:{
+    animals :(parent,args,ctx)=>{
+      return animals.filter(animal=>( animal.category == parent.id))
+    }
+  },
+  Animal:{
+    category:(parent,args,ctx)=>{
+      return categories.find(category=> category.id == parent.category)
+    }
+  }
 };
 
 const server = new ApolloServer({ typeDefs, resolvers });
